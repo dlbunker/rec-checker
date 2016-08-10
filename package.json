@@ -1,0 +1,17 @@
+{
+  "name": "res-checker",
+  "version": "1.0.0",
+  "description": "This project was build with the Spring Initializr https://start.spring.io/ And using NPM to install angular-bootstrap-starter.",
+  "main": "index.js",
+  "dependencies": {
+    "angular-bootstrap-starter": "^1.0.1"
+  },
+  "devDependencies": {
+    "angular-bootstrap-starter": "^1.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
