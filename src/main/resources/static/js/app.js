@@ -100,7 +100,9 @@
 						pageTitle : 'UI'
 					}
 				})
-			}).directive('updateTitle', updateTitle);
+			});
+	
+	app.directive('updateTitle', updateTitle);
 
 	updateTitle.$inject = [ '$rootScope', '$timeout' ];
 	function updateTitle($rootScope, $timeout) {
