@@ -1,11 +1,11 @@
 (function() {
 	console.log("Loading app...");
-	var app = angular.module('app', [ 'ui.router', 'navController',
+	angular.module('app', [ 'ui.router', 'navController',
 			'ngAnimate', 'ui.bootstrap' ])
 
 	// define for requirejs loaded modules
 	define('app', [], function() {
-		return app;
+		return angular.module('app');
 	});
 
 	// function for dynamic load with requirejs of a javascript module for use
@@ -34,10 +34,10 @@
 		}
 	}
 
-	app.config(
+	angular.module('app').config(
 			function($stateProvider, $urlRouterProvider, $controllerProvider) {
-				var origController = app.controller
-				app.controller = function(name, constructor) {
+				var origController = angular.module('app').controller
+				angular.module('app').controller = function(name, constructor) {
 					$controllerProvider.register(name, constructor);
 					return origController.apply(this, arguments);
 				}
@@ -65,7 +65,7 @@
 				})
 			});
 	
-	app.directive('updateTitle', updateTitle);
+	angular.module('app').directive('updateTitle', updateTitle);
 
 	updateTitle.$inject = [ '$rootScope', '$timeout' ];
 	function updateTitle($rootScope, $timeout) {
