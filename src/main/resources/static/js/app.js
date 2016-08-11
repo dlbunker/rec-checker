@@ -56,48 +56,11 @@
 					data : {
 						pageTitle : 'Home'
 					}
-				}).state('about', {
-					url : "/about",
-					templateUrl : viewsPrefix + "about.html",
+				}).state('jobs', {
+					url : "/jobs",
+					templateUrl : viewsPrefix + "jobs.html",
 					data : {
-						pageTitle : 'About'
-					}
-				}).state('contact', {
-					url : "/contact",
-					templateUrl : viewsPrefix + "contact.html",
-					data : {
-						pageTitle : 'Contact'
-					}
-				}).state('contact.list', {
-					url : "/list",
-					templateUrl : viewsPrefix + "contact-list.html",
-					controller : function($scope) {
-						$scope.things = [ "A", "Set", "Of", "Things" ];
-					}
-				}).state('theme', {
-					url : "/theme",
-					templateUrl : viewsPrefix + "theme.html",
-					data : {
-						pageTitle : 'Theme Example'
-					}
-				}).state('blog', {
-					url : "/blog",
-					templateUrl : viewsPrefix + "blog.html",
-					data : {
-						pageTitle : 'Blog'
-					}
-				}).state('grid', {
-					url : "/grid",
-					templateUrl : viewsPrefix + "grid.html",
-					data : {
-						pageTitle : 'Grid'
-					}
-				}).state('ui', {
-					url : "/ui",
-					resolve : req('/views/ui.js'),
-					templateUrl : viewsPrefix + "ui.html",
-					data : {
-						pageTitle : 'UI'
+						pageTitle : 'Jobs'
 					}
 				})
 			});
@@ -109,7 +72,7 @@
 		return {
 			link : function(scope, element) {
 				var listener = function(event, toState) {
-					var title = 'Project Name';
+					var title = 'Resource Checker';
 					if (toState.data && toState.data.pageTitle)
 						title = toState.data.pageTitle + ' - ' + title;
 					$timeout(function() {

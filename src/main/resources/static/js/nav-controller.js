@@ -4,7 +4,7 @@
 
 	navController.$inject = [ '$scope', '$state' ];
 	function navController($scope, $state) {
-		$scope.title = 'Project name';
+		$scope.title = 'Resource Checker';
 
 		// returns true if the current router url matches the passed in url
 		// so views can set 'active' on links easily
@@ -18,35 +18,8 @@
 			name : 'Home',
 			url : '#/'
 		}, {
-			name : 'About',
-			url : '#/about'
-		}, {
-			name : 'Contact',
-			url : '#/contact'
-		}, {
-			name : 'Theme Example',
-			url : '#/theme'
-		}, {
-			name : 'Blog',
-			url : '#/blog'
-		}, {
-			name : 'Grid',
-			url : '#/grid'
-		}, {
-			name : 'UI',
-			url : '#/ui'
-		}, {
-			name : 'Dropdown Example',
-			url : '#',
-			subPages : [ {
-				name : 'About',
-				url : '#/about'
-			}, {}, {
-				name : 'Header',
-			}, {
-				name : 'Contact',
-				url : '#/contact'
-			} ]
+			name : 'Jobs',
+			url : '#/jobs'
 		} ]
 	}
 })();
