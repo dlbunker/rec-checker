@@ -10,15 +10,19 @@
 	<form novalidate name="mining_form">
 		<div class="form-group">
 			<label for="mining_url">Web Site</label> <input id="mining_url"
-				class="form-control" ng-model-options="{debounce: 500}" ng-required="required"
+				name="mining_url" ng-model="mining_url" class="form-control"
+				ng-model-options="{debounce: 500}" ng-required="true" required
 				placeholder="URL http://example.com/foo?bar=xyz" />
 		</div>
 		<div class="form-group">
 			<label for="mining_search_pattern">Search for</label>
-			<textarea id="mining_search_pattern" class="form-control" ng-model-options="{debounce: 500}" ng-required="required"
+			<textarea id="mining_search_pattern" name="mining_search_pattern"
+				ng-model="mining_search_pattern" class="form-control"
+				ng-model-options="{debounce: 500}" ng-required="true" required
 				placeholder="Search for everything that matches RegEx /[Ff]oo\s+?[Bb]ar/g or CSS div.foo:not(.bar)"></textarea>
 		</div>
-		<button type="submit" class="btn btn-default pull-right">Submit</button>
+		<button type="submit" ng-disabled="!mining_form.$valid"
+			class="btn btn-default pull-right">Submit</button>
 	</form>
 	<hr>
 

@@ -1,5 +1,6 @@
 package com.checker;
 
+import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,4 +24,9 @@ public class ResourceCheckerApplication {
             }
         };
     }
+	
+	@Bean
+	public URLValidator getURLValidator(){
+		return new URLValidator();
+	}
 }
