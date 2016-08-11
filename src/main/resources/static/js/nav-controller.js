@@ -18,8 +18,8 @@
 			name : 'Home',
 			url : '#/'
 		}, {
-			name : 'Jobs',
-			url : '#/jobs'
+			name : 'Config',
+			url : '#/config'
 		} ]
 	}
 })();

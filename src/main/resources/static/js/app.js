@@ -56,11 +56,11 @@
 					data : {
 						pageTitle : 'Home'
 					}
-				}).state('jobs', {
-					url : "/jobs",
-					templateUrl : viewsPrefix + "jobs.html",
+				}).state('config', {
+					url : "/config",
+					templateUrl : viewsPrefix + "config.html",
 					data : {
-						pageTitle : 'Jobs'
+						pageTitle : 'Config'
 					}
 				})
 			});
