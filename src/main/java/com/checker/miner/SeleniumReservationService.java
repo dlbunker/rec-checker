@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +41,15 @@ public class SeleniumReservationService {
 	MineResultRepository mineResultRepository;
 
 	private FirefoxBinary firefoxBinary;
+	private boolean useHTMLUnit;
 	
 	@PostConstruct
 	public void init(){
+		this.useHTMLUnit = this.applicationProperties.isUseHTMLUnit();
+		if(this.useHTMLUnit){
+			return;
+		}
+		
 		this.firefoxBinary = new FirefoxBinary();
 		String xvfbDisplayPort = this.applicationProperties.getXvfbDisplayPort();
 		if(this.applicationProperties.isUseXvfb() && xvfbDisplayPort != null){			
@@ -51,7 +58,12 @@ public class SeleniumReservationService {
 	}
 
 	public void get() {
-		WebDriver driver = new FirefoxDriver(this.firefoxBinary, null);
+		WebDriver driver;
+		if(this.useHTMLUnit){
+			driver = new HtmlUnitDriver();
+		}else{
+			driver = new FirefoxDriver(this.firefoxBinary, null);
+		}
 		try {
 			DateRange dateRange = this.settingIntepreterService.getSettingAsDateRange("dates", new DateRange(this.applicationProperties.getDefaultDates()));
 			logger.log(Level.DEBUG, "Searching date range: " + dateRange);

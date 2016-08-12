@@ -20,6 +20,9 @@ public class ApplicationProperties {
 	
 	@Value("${com.checker.selenium.xvfb.display.port}")
 	private String xvfbDisplayPort;
+	
+	@Value("${com.checker.selenium.usehtmlunit}")
+	private boolean useHTMLUnit;
 
 	public int getDefaultDelay() {
 		return this.defaultDelay;
@@ -59,6 +62,14 @@ public class ApplicationProperties {
 
 	public void setXvfbDisplayPort(String xvfbDisplayPort) {
 		this.xvfbDisplayPort = xvfbDisplayPort;
+	}
+
+	public boolean isUseHTMLUnit() {
+		return this.useHTMLUnit;
+	}
+
+	public void setUseHTMLUnit(boolean useHTMLUnit) {
+		this.useHTMLUnit = useHTMLUnit;
 	}
 
 }
