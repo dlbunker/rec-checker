@@ -21,7 +21,7 @@
 			var that = this;
 			this.name = name;
 			this._loading = true;
-			$http.get('/settings/search/findByName?name=' + name).then(
+			$http.get('/api/settings/search/findByName?name=' + name).then(
 					function successCallback(response) {
 						angular.forEach(response.data, function(value, key) {
 							that[key] = value;
@@ -48,7 +48,7 @@
 					name: this.name,
 					value: this.value
 				};
-				$http.post('/settings/', data).then( function successCallback(response) {
+				$http.post('/api/settings/', data).then( function successCallback(response) {
 					angular.forEach(response.data, function(value, key) {
 						that[key] = value;
 					});

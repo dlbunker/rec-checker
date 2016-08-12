@@ -6,7 +6,6 @@
 	function navController($scope, configPersistance) {
 		$scope.delay = configPersistance.getSetting('delay');
 		$scope.dates = configPersistance.getSetting('dates');
-		console.log($scope.dates);
 		$scope.ids = configPersistance.getSetting('ids');
 	}
 })();

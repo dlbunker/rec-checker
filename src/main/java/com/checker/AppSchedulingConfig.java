@@ -50,7 +50,8 @@ public class AppSchedulingConfig implements SchedulingConfigurer {
 				Calendar nextExecutionTime = new GregorianCalendar();
 				Date lastActualExecutionTime = triggerContext.lastActualExecutionTime();
 				nextExecutionTime.setTime(lastActualExecutionTime != null ? lastActualExecutionTime : new Date());
-				int delayInt = AppSchedulingConfig.this.settingIntepreterService.getSettingAsInt("delay", applicationProperties.getDefaultDelay());
+				int delayInt = AppSchedulingConfig.this.settingIntepreterService.getSettingAsInt("delay",
+						AppSchedulingConfig.this.applicationProperties.getDefaultDelay());
 				nextExecutionTime.add(Calendar.SECOND, delayInt);
 				return nextExecutionTime.getTime();
 			}

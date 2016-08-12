@@ -14,9 +14,15 @@ public class ApplicationProperties {
 
 	@Value("${com.checker.default.ids}")
 	private String defaultIds;
+	
+	@Value("${com.checker.selenium.usexvfb}")
+	private boolean useXvfb;
+	
+	@Value("${com.checker.selenium.xvfb.display.port}")
+	private String xvfbDisplayPort;
 
 	public int getDefaultDelay() {
-		return defaultDelay;
+		return this.defaultDelay;
 	}
 
 	public void setDefaultDelay(int defaultDelay) {
@@ -24,7 +30,7 @@ public class ApplicationProperties {
 	}
 
 	public String getDefaultDates() {
-		return defaultDates;
+		return this.defaultDates;
 	}
 
 	public void setDefaultDates(String defaultDates) {
@@ -32,10 +38,27 @@ public class ApplicationProperties {
 	}
 
 	public String getDefaultIds() {
-		return defaultIds;
+		return this.defaultIds;
 	}
 
 	public void setDefaultIds(String defaultIds) {
 		this.defaultIds = defaultIds;
 	}
+
+	public boolean isUseXvfb() {
+		return this.useXvfb;
+	}
+
+	public void setUseXvfb(boolean useXvfb) {
+		this.useXvfb = useXvfb;
+	}
+
+	public String getXvfbDisplayPort() {
+		return this.xvfbDisplayPort;
+	}
+
+	public void setXvfbDisplayPort(String xvfbDisplayPort) {
+		this.xvfbDisplayPort = xvfbDisplayPort;
+	}
+
 }

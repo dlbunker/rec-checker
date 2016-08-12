@@ -19,15 +19,15 @@ public class Setting{
 	private String value;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getValue() {
-		return value;
+		return this.value;
 	}
 
 	public void setId(Long id) {

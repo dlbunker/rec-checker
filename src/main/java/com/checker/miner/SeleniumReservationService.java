@@ -1,9 +1,12 @@
 package com.checker.miner;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,47 +27,61 @@ import com.checker.settings.SettingIntepreterService;
  */
 @Service
 public class SeleniumReservationService {
+	
+	static Logger logger = Logger.getLogger(SeleniumReservationService.class);
 
 	@Autowired
 	SettingIntepreterService settingIntepreterService;
-	
+
 	@Autowired
 	ApplicationProperties applicationProperties;
+	
+	@Autowired
+	MineResultRepository mineResultRepository;
 
 	private FirefoxBinary firefoxBinary;
-
-	public SeleniumReservationService() {
+	
+	@PostConstruct
+	public void init(){
 		this.firefoxBinary = new FirefoxBinary();
+		String xvfbDisplayPort = this.applicationProperties.getXvfbDisplayPort();
+		if(this.applicationProperties.isUseXvfb() && xvfbDisplayPort != null){			
+			this.firefoxBinary.setEnvironmentProperty("DISPLAY", xvfbDisplayPort);
+		}
 	}
 
-	public void get() {	
-		if(true){return;}
-		
+	public void get() {
 		WebDriver driver = new FirefoxDriver(this.firefoxBinary, null);
 		try {
-			DateRange dateRange = settingIntepreterService.getSettingAsDateRange("dates", new DateRange());
-			System.err.println("Testing " + dateRange);
+			DateRange dateRange = this.settingIntepreterService.getSettingAsDateRange("dates", new DateRange(this.applicationProperties.getDefaultDates()));
+			logger.log(Level.DEBUG, "Searching date range: " + dateRange);
 			Iterable<Date> iterable = dateRange.getIterable();
 			int skipCount = 0;
 			for (Date day : iterable) {
-				if(skipCount > 0){
+				if (skipCount > 0) {
 					skipCount--;
 					continue;
 				}
 				String currentDay = DateRange.dateToString(day);
-				
-				driver.get(
-						"http://www.recreation.gov/permits//r/entranceDetails.do?arvdate=" + currentDay + "&contractCode=NRSO&parkId=115139&entranceId=356817");
+
+				String url = "http://www.recreation.gov/permits//r/entranceDetails.do?arvdate=" + currentDay
+						+ "&contractCode=NRSO&parkId=115139&entranceId=356817";
+				logger.log(Level.DEBUG, "Searching currentDay(" + currentDay + ") and url(" + url + ")");
+				driver.get(url);
 
 				WebElement findButton = driver.findElement(By.name("permitAvailabilitySearchButton"));
 				findButton.click();
 
 				List<WebElement> reservedStatuses = driver.findElements(By.className("permitStatus"));
 
-				System.out.println("reservedStatuses size for " + currentDay + ": " + reservedStatuses.size());
-				skipCount = reservedStatuses.size();
+				logger.log(Level.DEBUG, "reservedStatuses size for " + currentDay + ": " + reservedStatuses.size());
+				if(reservedStatuses.size() == 14){
+					skipCount = reservedStatuses.size();
+				}
 				if (reservedStatuses.size() == 0) {
-					System.out.println("permit found at: " + currentDay);
+					logger.log(Level.DEBUG, "permit found at: " + currentDay);
+					MineResult mineResult = new MineResult(day, true);
+					this.mineResultRepository.save(mineResult);
 				}
 			}
 		} catch (Exception e) {

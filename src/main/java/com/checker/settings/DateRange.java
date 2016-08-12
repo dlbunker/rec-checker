@@ -12,8 +12,8 @@ public class DateRange {
 	private Date startDate;
 
 	public DateRange() {
-		endDate = new Date();
-		startDate = new Date();
+		this.endDate = new Date();
+		this.startDate = new Date();
 	}
 
 	public DateRange(String range) {
@@ -60,17 +60,24 @@ public class DateRange {
 		if (this.startDate == null || this.endDate == null) {
 			return new ArrayList<>();
 		}
-		if(dateToString(startDate).equals(dateToString(endDate))){
+		if(dateToString(this.startDate).equals(dateToString(this.endDate))){
 			ArrayList<Date> arrayList = new ArrayList<>();
-			arrayList.add(startDate);
+			arrayList.add(this.startDate);
 			return arrayList;
 		}
 		long start = this.startDate.getTime();
 		String end = dateToString(this.endDate);
 		ArrayList<Date> list = new ArrayList<>();
-		while (dateToString(new Date(start)) != end) {
+		boolean readyToBreak = false;
+		while (true) {
 			list.add(new Date(start));
 			start = start + NUMBER_OF_MILLIS_PER_DAY;
+			if(readyToBreak){
+				break;
+			}
+			if(dateToString(new Date(start)).equals(end)){
+				readyToBreak = true;
+			}
 		}
 		return list;
 	}
