@@ -3,25 +3,34 @@
 	<div class="page-header">
 		<h1>Resource Checker Config</h1>
 	</div>
-	 
-	<form novalidate name="mining_form" class="col-xs-12 col-sm-9 col-md-6">
+
+	<form novalidate name="mining_form" class="col-xs-12 col-sm-9 col-md-6"
+		ng-controller="config">
 		<div class="form-group">
-			<label for="mining_url">How long to run the background check job?</label> <input id="mining_url"
-				name="mining_url" ng-model="mining_url" class="form-control"
-				ng-model-options="{debounce: 500}" ng-required="true" required
-				placeholder="URL http://example.com/foo?bar=xyz" />
+
+			<label for="delay">How long between data mine jobs? (in
+				seconds) <i class="glyphicon glyphicon-hourglass"
+				ng-show="delay._loading"></i>
+			</label> <input id="delay" name="delay" ng-model="delay.value"
+				class="form-control" ng-model-options="{debounce: 1500}"
+				ng-change="delay.save();" ng-required="true" required
+				placeholder="30" />
 		</div>
 		<div class="form-group">
-			<label for="mining_url">How long to run the background check job?</label> <input id="mining_url"
-				name="mining_url" ng-model="mining_url" class="form-control"
-				ng-model-options="{debounce: 500}" ng-required="true" required
-				placeholder="URL http://example.com/foo?bar=xyz" />
+			<label for="dates">Which dates to check?
+				(mm/dd/yyyy-mm/dd/yyyy)</label><i class="glyphicon glyphicon-hourglass"
+				ng-show="dates._loading"></i> <input id="dates" name="dates"
+				ng-model="dates.value" class="form-control"
+				ng-model-options="{debounce: 1500}" ng-change="dates.save();"
+				ng-required="true" required placeholder="06/01/2016-07/15/2016" />
 		</div>
 		<div class="form-group">
-			<label for="mining_url"> What reservation resources to check?</label> <input id="mining_url"
-				name="mining_url" ng-model="mining_url" class="form-control"
-				ng-model-options="{debounce: 500}" ng-required="true" required
-				placeholder="URL http://example.com/foo?bar=xyz" />
+			<label for="ids"> What reservation resources to check?
+				(id1,id2,id3,id4 ...)</label><i class="glyphicon glyphicon-hourglass"
+				ng-show="ids._loading"></i> <input id="ids" name="ids"
+				ng-model="ids.value" class="form-control"
+				ng-model-options="{debounce: 1500}" ng-change="ids.save();"
+				ng-required="true" required placeholder="123,456,789" />
 		</div>
 
 	</form>

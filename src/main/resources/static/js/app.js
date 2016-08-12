@@ -1,6 +1,6 @@
 (function() {
 	console.log("Loading app...");
-	angular.module('app', [ 'ui.router', 'navController',
+	angular.module('app', [ 'ui.router', 'navController', 'configController',
 			'ngAnimate', 'ui.bootstrap' ])
 
 	// define for requirejs loaded modules
@@ -16,7 +16,7 @@
 	function req(deps) {
 		if (typeof deps === 'string')
 			deps = [ deps ];
-		
+
 		deps_.$inject = [ '$q', '$rootScope' ];
 		return {
 			deps : deps_
@@ -64,7 +64,7 @@
 					}
 				})
 			});
-	
+
 	angular.module('app').directive('updateTitle', updateTitle);
 
 	updateTitle.$inject = [ '$rootScope', '$timeout' ];

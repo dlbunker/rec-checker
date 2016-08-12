@@ -1,25 +1,12 @@
 (function() {
 	console.log("Loading configController...");
-	angular.module('configController', []).controller('nav', navController);
+	angular.module('configController', ['configPersistance']).controller('config', navController);
 
-	navController.$inject = [ '$scope', '$state' ];
-	function navController($scope, $state) {
-		$scope.title = 'Resource Checker';
-
-		// returns true if the current router url matches the passed in url
-		// so views can set 'active' on links easily
-		$scope.isUrl = function(url) {
-			if (url === '#')
-				return false;
-			return ('#' + $state.$current.url.source + '/').indexOf(url + '/') === 0;
-		};
-
-		$scope.pages = [ {
-			name : 'Home',
-			url : '#/'
-		}, {
-			name : 'Config',
-			url : '#/config'
-		} ]
+	navController.$inject = [ '$scope', 'configPersistance'];
+	function navController($scope, configPersistance) {
+		$scope.delay = configPersistance.getSetting('delay');
+		$scope.dates = configPersistance.getSetting('dates');
+		console.log($scope.dates);
+		$scope.ids = configPersistance.getSetting('ids');
 	}
 })();
