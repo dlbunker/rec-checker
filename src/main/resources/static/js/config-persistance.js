@@ -48,7 +48,7 @@
 					name: this.name,
 					value: this.value
 				};
-				$http.post('/settings/', data, function successCallback(response) {
+				$http.post('/settings/', data).then( function successCallback(response) {
 					angular.forEach(response.data, function(value, key) {
 						that[key] = value;
 					});

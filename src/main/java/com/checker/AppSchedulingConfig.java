@@ -16,8 +16,7 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 import com.checker.miner.SeleniumReservationService;
-import com.checker.settings.Setting;
-import com.checker.settings.SettingRepository;
+import com.checker.settings.SettingIntepreterService;
 
 @Configuration
 @EnableScheduling
@@ -27,9 +26,10 @@ public class AppSchedulingConfig implements SchedulingConfigurer {
 	SeleniumReservationService seleniumReservationService;
 
 	@Autowired
-	SettingRepository settingRepository;
+	SettingIntepreterService settingIntepreterService;
 
-	private final static int DEFAULT_DELAY = 30;
+	@Autowired
+	ApplicationProperties applicationProperties;
 
 	@Bean(destroyMethod = "shutdown")
 	public Executor taskExecutor() {
@@ -42,7 +42,7 @@ public class AppSchedulingConfig implements SchedulingConfigurer {
 		taskRegistrar.addTriggerTask(new Runnable() {
 			@Override
 			public void run() {
-				seleniumReservationService.get();
+				AppSchedulingConfig.this.seleniumReservationService.get();
 			}
 		}, new Trigger() {
 			@Override
@@ -50,12 +50,8 @@ public class AppSchedulingConfig implements SchedulingConfigurer {
 				Calendar nextExecutionTime = new GregorianCalendar();
 				Date lastActualExecutionTime = triggerContext.lastActualExecutionTime();
 				nextExecutionTime.setTime(lastActualExecutionTime != null ? lastActualExecutionTime : new Date());
-				Setting delaySetting = settingRepository.findByName("delay");
-				String delaySettingValue = delaySetting == null ? Integer.toString(DEFAULT_DELAY)
-						: delaySetting.getValue();
-				int delayInt = Integer.parseInt(delaySettingValue);
+				int delayInt = AppSchedulingConfig.this.settingIntepreterService.getSettingAsInt("delay", applicationProperties.getDefaultDelay());
 				nextExecutionTime.add(Calendar.SECOND, delayInt);
-				System.err.println("Next execution time: " + nextExecutionTime.getTime());
 				return nextExecutionTime.getTime();
 			}
 		});
