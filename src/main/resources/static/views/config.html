@@ -7,7 +7,14 @@
 	<form novalidate name="mining_form" class="col-xs-12 col-sm-9 col-md-6"
 		ng-controller="config" action="">
 		<div class="form-group">
-
+			<label for="on">Data Mining Enabled? </label>
+			<button id="on" name="on" type="button" class="btn"
+				ng-class="on.value ? 'btn-success' : 'btn-danger'"
+				ng-model="on.value" ng-click="on.value = !on.value; on.save();">
+				{{on.value ? 'On' : 'Off'}}</button>
+			<i class="glyphicon glyphicon-hourglass" ng-show="on._loading"></i>
+		</div>
+		<div class="form-group">
 			<label for="delay">How long between data mine jobs? (in
 				seconds) <i class="glyphicon glyphicon-hourglass"
 				ng-show="delay._loading"></i>

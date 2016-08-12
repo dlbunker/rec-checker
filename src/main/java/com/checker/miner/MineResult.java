@@ -18,14 +18,19 @@ public class MineResult {
 	private Date date;
 
 	@Column
-	private boolean available;
+	private int parkID;
 	
-	public MineResult(){
-		
+	@Column
+	private int entranceID;
+
+	public MineResult() {
+
 	}
-	public MineResult(Date date, boolean available){
+
+	public MineResult(Date date, int parkID, int entranceID) {
 		setDate(date);
-		setAvailable(available);
+		setParkID(parkID);
+		setEntranceID(entranceID);
 	}
 
 	public Long getId() {
@@ -36,20 +41,27 @@ public class MineResult {
 		this.id = id;
 	}
 
-
-	public boolean isAvailable() {
-		return this.available;
-	}
-
-	public void setAvailable(boolean available) {
-		this.available = available;
-	}
-
 	public Date getDate() {
 		return this.date;
 	}
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public int getEntranceID() {
+		return this.entranceID;
+	}
+
+	public void setEntranceID(int entranceID) {
+		this.entranceID = entranceID;
+	}
+
+	public int getParkID() {
+		return this.parkID;
+	}
+
+	public void setParkID(int parkID) {
+		this.parkID = parkID;
 	}
 }

@@ -28,7 +28,7 @@ import com.checker.settings.SettingIntepreterService;
  */
 @Service
 public class SeleniumReservationService {
-	
+
 	static Logger logger = Logger.getLogger(SeleniumReservationService.class);
 
 	@Autowired
@@ -36,36 +36,41 @@ public class SeleniumReservationService {
 
 	@Autowired
 	ApplicationProperties applicationProperties;
-	
+
 	@Autowired
 	MineResultRepository mineResultRepository;
 
 	private FirefoxBinary firefoxBinary;
 	private boolean useHTMLUnit;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {		
 		this.useHTMLUnit = this.applicationProperties.isUseHTMLUnit();
-		if(this.useHTMLUnit){
+		if (this.useHTMLUnit) {
 			return;
 		}
-		
+
 		this.firefoxBinary = new FirefoxBinary();
 		String xvfbDisplayPort = this.applicationProperties.getXvfbDisplayPort();
-		if(this.applicationProperties.isUseXvfb() && xvfbDisplayPort != null){			
+		if (this.applicationProperties.isUseXvfb() && xvfbDisplayPort != null) {
 			this.firefoxBinary.setEnvironmentProperty("DISPLAY", xvfbDisplayPort);
 		}
 	}
 
 	public void get() {
+		boolean on = this.settingIntepreterService.getSettingAsBoolean("on", false);
+		if(!on){
+			return;
+		}
 		WebDriver driver;
-		if(this.useHTMLUnit){
+		if (this.useHTMLUnit) {
 			driver = new HtmlUnitDriver();
-		}else{
+		} else {
 			driver = new FirefoxDriver(this.firefoxBinary, null);
 		}
 		try {
-			DateRange dateRange = this.settingIntepreterService.getSettingAsDateRange("dates", new DateRange(this.applicationProperties.getDefaultDates()));
+			DateRange dateRange = this.settingIntepreterService.getSettingAsDateRange("dates",
+					new DateRange(this.applicationProperties.getDefaultDates()));
 			logger.log(Level.DEBUG, "Searching date range: " + dateRange);
 			Iterable<Date> iterable = dateRange.getIterable();
 			int skipCount = 0;
@@ -76,8 +81,10 @@ public class SeleniumReservationService {
 				}
 				String currentDay = DateRange.dateToString(day);
 
+				int parkID = 115139;
+				int entranceID = 356817;
 				String url = "http://www.recreation.gov/permits//r/entranceDetails.do?arvdate=" + currentDay
-						+ "&contractCode=NRSO&parkId=115139&entranceId=356817";
+						+ "&contractCode=NRSO&parkId=" + parkID + "&entranceId=" + entranceID;
 				logger.log(Level.DEBUG, "Searching currentDay(" + currentDay + ") and url(" + url + ")");
 				driver.get(url);
 
@@ -87,12 +94,15 @@ public class SeleniumReservationService {
 				List<WebElement> reservedStatuses = driver.findElements(By.className("permitStatus"));
 
 				logger.log(Level.DEBUG, "reservedStatuses size for " + currentDay + ": " + reservedStatuses.size());
-				if(reservedStatuses.size() == 14){
+				if (reservedStatuses.size() == 14) {
 					skipCount = reservedStatuses.size();
 				}
 				if (reservedStatuses.size() == 0) {
 					logger.log(Level.DEBUG, "permit found at: " + currentDay);
-					MineResult mineResult = new MineResult(day, true);
+					MineResult mineResult;
+					mineResult = this.mineResultRepository.findByDateAndParkIDAndEntranceID(day, parkID, entranceID);
+					if (mineResult == null)
+						mineResult = new MineResult(day, parkID, entranceID);
 					this.mineResultRepository.save(mineResult);
 				}
 			}

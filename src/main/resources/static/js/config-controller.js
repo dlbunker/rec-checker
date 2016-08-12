@@ -4,8 +4,13 @@
 
 	navController.$inject = [ '$scope', 'configPersistance'];
 	function navController($scope, configPersistance) {
-		$scope.delay = configPersistance.getSetting('delay');
-		$scope.dates = configPersistance.getSetting('dates');
-		$scope.ids = configPersistance.getSetting('ids');
+		var properties = ['delay','dates','ids','on'];
+		
+		for(var i = 0, p; i < properties.length; i++){
+			p = properties[i];
+			$scope[p] = configPersistance.getSetting(p);
+			console.log(p);
+			console.log($scope[p]);
+		}
 	}
 })();

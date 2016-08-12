@@ -6,22 +6,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApplicationProperties {
 	
-	@Value("${com.checker.default.delay}")
+	@Value("${com.checker.default.delay:180}")
 	private int defaultDelay;
 
-	@Value("${com.checker.default.dates}")
+	@Value("${com.checker.default.dates:null}")
 	private String defaultDates;
 
-	@Value("${com.checker.default.ids}")
+	@Value("${com.checker.default.ids:null}")
 	private String defaultIds;
 	
-	@Value("${com.checker.selenium.usexvfb}")
+	@Value("${com.checker.selenium.usexvfb:false}")
 	private boolean useXvfb;
 	
-	@Value("${com.checker.selenium.xvfb.display.port}")
+	@Value("${com.checker.selenium.xvfb.display.port:null}")
 	private String xvfbDisplayPort;
 	
-	@Value("${com.checker.selenium.usehtmlunit}")
+	@Value("${com.checker.selenium.usehtmlunit:true}")
 	private boolean useHTMLUnit;
 
 	public int getDefaultDelay() {

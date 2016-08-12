@@ -37,6 +37,18 @@ public class SettingIntepreterService {
 		}
 	}
 	
+	public boolean getSettingAsBoolean(String name, boolean def){
+		Setting setting = this.settingRepository.findByName(name);
+		if(setting == null){
+			return def;
+		}
+		String value = setting.getValue();
+		if(value == null){
+			return def;
+		}
+		return Boolean.parseBoolean(value);
+	}
+	
 	public DateRange getSettingAsDateRange(String name, DateRange def){
 		Setting setting = this.settingRepository.findByName(name);
 		if(setting == null){
