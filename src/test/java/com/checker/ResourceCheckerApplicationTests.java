@@ -11,6 +11,7 @@ public class ResourceCheckerApplicationTests {
 
 	@Test
 	public void contextLoads() {
+
 	}
 
 }
