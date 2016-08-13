@@ -35,7 +35,7 @@
 		function save() {
 			var that = this;
 			this._loading = true;
-			if (this._links && this._links.self && this.value) {
+			if (this._links && this._links.self && typeof this.value != "undefined") {
 				var data = {
 					"value" : this.value
 				};
