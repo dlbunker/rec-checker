@@ -24,6 +24,14 @@
 			$http.get('/api/settings/search/findByName?name=' + name).then(
 					function successCallback(response) {
 						angular.forEach(response.data, function(value, key) {
+							//Handle boolean conversions
+							if(typeof value == "string"){
+								if(value.toLowerCase() == "false"){
+									value = false;
+								}else if(value.toLowerCase() == "true"){
+									value = true;
+								}
+							}
 							that[key] = value;
 						});
 					}, function errorCallback() {

@@ -10,33 +10,33 @@
 		<form novalidate name="search_form">
 			<div class="form-group col-xs-1">
 				<label for="id">ID </label> <input id="id" name="id"
-					ng-model="search.id" class="form-control"
-					ng-model-options="{debounce: 500}"
+					ng-model="searchParams.id" class="form-control"
 					ng-keypress="$event.which == 13 && search();"
-					placeholder="&#xe003;" required />
+					placeholder="&#xe003;" required disabled/>
 			</div>
 			<div class="form-group col-xs-2">
 				<label for="date">Date</label> <input id="date" name="date"
-					ng-model="search.date" class="form-control"
-					ng-model-options="{debounce: 500}"
+					ng-model="searchParams.date" class="form-control"
 					ng-keypress="$event.which == 13 && search();"
 					placeholder="&#xe003;" required />
 			</div>
 			<div class="form-group col-xs-5">
 				<label for="parkID">Park ID</label> <input id="parkID" name="parkID"
-					ng-model="search.parkID" class="form-control"
-					ng-model-options="{debounce: 500}"
+					ng-model="searchParams.parkID" class="form-control"
 					ng-keypress="$event.which == 13 && search();"
 					placeholder="&#xe003;" required />
 			</div>
 			<div class="form-group col-xs-4">
 				<label for="entranceID">Entrance ID</label> <input id="entranceID"
-					name="entranceID" ng-model="search.entranceID" class="form-control"
-					ng-model-options="{debounce: 500}"
+					name="entranceID" class="form-control"
+					ng-model="searchParams.entranceID"
 					ng-keypress="$event.which == 13 && search();"
 					placeholder="&#xe003;" required />
 			</div>
 		</form>
+		<div class="search-results">
+			
+		</div>
 		<hr>
 
 		<footer>

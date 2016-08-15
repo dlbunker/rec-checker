@@ -8,11 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.hateoas.ResourceSupport;
+
 @Entity
-public class MineResult {
+public class MineResult extends ResourceSupport{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Long sysId;
 
 	@Column
 	private Date date;
@@ -33,13 +35,6 @@ public class MineResult {
 		setEntranceID(entranceID);
 	}
 
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Date getDate() {
 		return this.date;
@@ -64,4 +59,13 @@ public class MineResult {
 	public void setParkID(int parkID) {
 		this.parkID = parkID;
 	}
+
+	public Long getSysId() {
+		return this.sysId;
+	}
+
+	public void setSysId(Long sysId) {
+		this.sysId = sysId;
+	}
+
 }
