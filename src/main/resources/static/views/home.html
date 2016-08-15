@@ -6,9 +6,6 @@
 		</div>
 	</div>
 	<div class="height-bumper"></div>
-	<button type="button" class="btn btn-primary" ng-model="singleModel" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
-        Single Toggle
-    </button> {{singleModel}}
 	<div class="container">
 		<form novalidate name="search_form">
 			<div class="form-group col-xs-3">
@@ -32,8 +29,15 @@
 			</div>
 		</form>
 		<div class="search-results">
-			
+			<i class="glyphicon glyphicon-hourglass"
+				ng-show="resultSet._isLoading"></i>
+			<div ng-repeat="result in resultSet" class="result-item row">
+				<div class="col-xs-3">{{result.date}}</div>
+				<div class="col-xs-5">{{result.park.name ? result.park.name : result.park.sysId}}</div>
+				<div class="col-xs-4">{{result.entrance.name ? result.entrance.name : result.entrance.sysId}}</div>
+			</div>
 		</div>
+		
 		<hr>
 
 		<footer>

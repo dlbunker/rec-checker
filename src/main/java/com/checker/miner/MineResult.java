@@ -7,61 +7,50 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.springframework.hateoas.ResourceSupport;
 
 @Entity
-public class MineResult extends ResourceSupport{
+public class MineResult extends ResourceSupport {
+	@Column
+	private Date date;
+
+	@ManyToOne
+	private Entrance entrance;
+	@ManyToOne
+	private Park park;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long sysId;
 
-	@Column
-	private Date date;
-
-	@Column
-	private int parkID;
-	
-	@Column
-	private int entranceID;
-
-	public MineResult() {
-
-	}
-
-	public MineResult(Date date, int parkID, int entranceID) {
-		setDate(date);
-		setParkID(parkID);
-		setEntranceID(entranceID);
-	}
-
-
 	public Date getDate() {
 		return this.date;
+	}
+
+	public Entrance getEntrance() {
+		return this.entrance;
+	}
+
+	public Park getPark() {
+		return this.park;
+	}
+
+	public Long getSysId() {
+		return this.sysId;
 	}
 
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
-	public int getEntranceID() {
-		return this.entranceID;
+	public void setEntrance(Entrance entrance) {
+		this.entrance = entrance;
 	}
 
-	public void setEntranceID(int entranceID) {
-		this.entranceID = entranceID;
-	}
-
-	public int getParkID() {
-		return this.parkID;
-	}
-
-	public void setParkID(int parkID) {
-		this.parkID = parkID;
-	}
-
-	public Long getSysId() {
-		return this.sysId;
+	public void setPark(Park park) {
+		this.park = park;
 	}
 
 	public void setSysId(Long sysId) {

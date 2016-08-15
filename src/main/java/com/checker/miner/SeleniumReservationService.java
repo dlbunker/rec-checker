@@ -22,7 +22,7 @@ import com.checker.settings.SettingIntepreterService;
 
 /**
  * Get a Selenium page based on a mine request
- * 
+ *
  * @author craftmaster2190
  *
  */
@@ -32,34 +32,24 @@ public class SeleniumReservationService {
 	static Logger logger = Logger.getLogger(SeleniumReservationService.class);
 
 	@Autowired
-	SettingIntepreterService settingIntepreterService;
-
-	@Autowired
 	ApplicationProperties applicationProperties;
 
 	@Autowired
-	MineResultRepository mineResultRepository;
+	EntranceRepository entranceRepository;
 
 	private FirefoxBinary firefoxBinary;
+	@Autowired
+	MineResultRepository mineResultRepository;
+	@Autowired
+	ParkRepository parkRepository;
+
+	@Autowired
+	SettingIntepreterService settingIntepreterService;
 	private boolean useHTMLUnit;
-
-	@PostConstruct
-	public void init() {		
-		this.useHTMLUnit = this.applicationProperties.isUseHTMLUnit();
-		if (this.useHTMLUnit) {
-			return;
-		}
-
-		this.firefoxBinary = new FirefoxBinary();
-		String xvfbDisplayPort = this.applicationProperties.getXvfbDisplayPort();
-		if (this.applicationProperties.isUseXvfb() && xvfbDisplayPort != null) {
-			this.firefoxBinary.setEnvironmentProperty("DISPLAY", xvfbDisplayPort);
-		}
-	}
 
 	public void get() {
 		boolean on = this.settingIntepreterService.getSettingAsBoolean("on", false);
-		if(!on){
+		if (!on) {
 			return;
 		}
 		WebDriver driver;
@@ -81,8 +71,8 @@ public class SeleniumReservationService {
 				}
 				String currentDay = DateRange.dateToString(day);
 
-				int parkID = 115139;
-				int entranceID = 356817;
+				long parkID = 115139;
+				long entranceID = 356817;
 				String url = "http://www.recreation.gov/permits//r/entranceDetails.do?arvdate=" + currentDay
 						+ "&contractCode=NRSO&parkId=" + parkID + "&entranceId=" + entranceID;
 				logger.log(Level.DEBUG, "Searching currentDay(" + currentDay + ") and url(" + url + ")");
@@ -99,17 +89,50 @@ public class SeleniumReservationService {
 				}
 				if (reservedStatuses.size() == 0) {
 					logger.log(Level.DEBUG, "permit found at: " + currentDay);
-					MineResult mineResult;
-					mineResult = this.mineResultRepository.findByDateAndParkIDAndEntranceID(day, parkID, entranceID);
-					if (mineResult == null)
-						mineResult = new MineResult(day, parkID, entranceID);
-					this.mineResultRepository.save(mineResult);
+					MineResult mineResult = this.mineResultRepository.findByDateAndEntranceSysIdAndParkSysId(day,
+							entranceID, parkID);
+					if (mineResult == null) {
+						mineResult = new MineResult();
+						mineResult.setDate(day);
+
+						Park park = this.parkRepository.findOne(parkID);
+						if (park == null) {
+							park = new Park();
+							park.setSysId(parkID);
+							this.parkRepository.save(park);
+						}
+						mineResult.setPark(park);
+
+						Entrance entrance = this.entranceRepository.findOne(entranceID);
+						if (entrance == null) {
+							entrance = new Entrance();
+							entrance.setSysId(entranceID);
+							this.entranceRepository.save(entrance);
+						}
+						mineResult.setEntrance(entrance);
+
+						this.mineResultRepository.save(mineResult);
+					}
 				}
 			}
 		} catch (Exception e) {
 
 		} finally {
 			driver.quit();
+		}
+	}
+
+	@PostConstruct
+	public void init() {
+		this.useHTMLUnit = this.applicationProperties.isUseHTMLUnit();
+		if (this.useHTMLUnit) {
+			return;
+		}
+
+		this.firefoxBinary = new FirefoxBinary();
+		String xvfbDisplayPort = this.applicationProperties.getXvfbDisplayPort();
+		if (this.applicationProperties.isUseXvfb() && xvfbDisplayPort != null) {
+			this.firefoxBinary.setEnvironmentProperty("DISPLAY", xvfbDisplayPort);
 		}
 	}
 

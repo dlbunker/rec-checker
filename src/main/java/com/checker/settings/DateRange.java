@@ -7,8 +7,29 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DateRange {
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	private static final long NUMBER_OF_MILLIS_PER_DAY = 86400000L;
+
+	public static String dateToString(Date date) {
+		if (date == null) {
+			return null;
+		}
+		return DATE_FORMAT.format(date);
+	}
+
+	public static Date stringToDate(String date) {
+		if (date == null) {
+			return null;
+		}
+		try {
+			return DATE_FORMAT.parse(date);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+
 	private Date endDate;
+
 	private Date startDate;
 
 	public DateRange() {
@@ -16,22 +37,22 @@ public class DateRange {
 		this.startDate = new Date();
 	}
 
+	public DateRange(Date start, Date end) {
+		this.setStartDate(start);
+		this.setEndDate(end);
+	}
+
 	public DateRange(String range) {
 		String[] dates = range.split("-");
 		if (dates.length == 2) {
-			setStartDate(stringToDate(dates[0]));
-			setEndDate(stringToDate(dates[1]));
+			this.setStartDate(stringToDate(dates[0]));
+			this.setEndDate(stringToDate(dates[1]));
 		}
 	}
 
-	public DateRange(Date start, Date end) {
-		setStartDate(start);
-		setEndDate(end);
-	}
-
 	public DateRange(String start, String end) {
-		setStartDate(stringToDate(start));
-		setEndDate(stringToDate(end));
+		this.setStartDate(stringToDate(start));
+		this.setEndDate(stringToDate(end));
 	}
 
 	private void checkDateOrdering() {
@@ -53,14 +74,14 @@ public class DateRange {
 	/**
 	 * Get an iterable of all the dates inclusive between startDate and endDate.
 	 * If either of those are null, return an empty iterable.
-	 * 
+	 *
 	 * @return an iterable of Date objects.
 	 */
 	public Iterable<Date> getIterable() {
 		if (this.startDate == null || this.endDate == null) {
 			return new ArrayList<>();
 		}
-		if(dateToString(this.startDate).equals(dateToString(this.endDate))){
+		if (dateToString(this.startDate).equals(dateToString(this.endDate))) {
 			ArrayList<Date> arrayList = new ArrayList<>();
 			arrayList.add(this.startDate);
 			return arrayList;
@@ -72,10 +93,10 @@ public class DateRange {
 		while (true) {
 			list.add(new Date(start));
 			start = start + NUMBER_OF_MILLIS_PER_DAY;
-			if(readyToBreak){
+			if (readyToBreak) {
 				break;
 			}
-			if(dateToString(new Date(start)).equals(end)){
+			if (dateToString(new Date(start)).equals(end)) {
 				readyToBreak = true;
 			}
 		}
@@ -88,12 +109,12 @@ public class DateRange {
 
 	public void setEndDate(Date end) {
 		this.endDate = end;
-		checkDateOrdering();
+		this.checkDateOrdering();
 	}
 
 	public void setStartDate(Date start) {
 		this.startDate = start;
-		checkDateOrdering();
+		this.checkDateOrdering();
 	}
 
 	@Override
@@ -103,22 +124,5 @@ public class DateRange {
 		stringBuilder.append("-");
 		stringBuilder.append(dateToString(this.endDate));
 		return stringBuilder.toString();
-	}
-
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
-
-	public static Date stringToDate(String date) {
-		try {
-			return DATE_FORMAT.parse(date);
-		} catch (ParseException e) {
-			return null;
-		}
-	}
-
-	public static String dateToString(Date date) {
-		if (date == null) {
-			return null;
-		}
-		return DATE_FORMAT.format(date);
 	}
 }
