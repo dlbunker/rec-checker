@@ -1,6 +1,6 @@
 (function() {
 	console.log('Loading configPersistance...');
-	angular.module('configPersistance', []).factory('configPersistance',
+	angular.module('app').factory('configPersistance',
 			configPersistance);
 
 	configPersistance.$inject = [ '$http' ];

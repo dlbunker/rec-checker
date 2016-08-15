@@ -1,6 +1,6 @@
 (function() {
 	console.log("Loading navController...");
-	angular.module('navController', []).controller('nav', navController);
+	angular.module('navController', []).controller('navController', navController);
 
 	navController.$inject = [ '$scope', '$state' ];
 	function navController($scope, $state) {

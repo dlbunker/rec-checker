@@ -32,8 +32,7 @@
 		"requirejs": "^2.1.16"
 	},
 	"scripts": {
-		"build": "gulp",
-		"watch": "gulp watch"
+		"build": "gulp"
 	},
 	"author": "",
 	"license": "ISC"

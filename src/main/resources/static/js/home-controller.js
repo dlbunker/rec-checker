@@ -1,7 +1,7 @@
 (function() {
 	console.log("Loading homeController...");
-	angular.module('homeController', [ 'mineResultResource' ]).controller(
-			'home', homeController);
+	angular.module('app').controller(
+			'homeController', homeController);
 
 	homeController.$inject = [ '$scope', 'mineResultResource' ];
 	function homeController($scope, mineResultResource) {

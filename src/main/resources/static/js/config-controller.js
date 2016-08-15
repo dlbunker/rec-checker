@@ -1,6 +1,6 @@
 (function() {
 	console.log("Loading configController...");
-	angular.module('configController', ['configPersistance']).controller('config', navController);
+	angular.module('app').controller('configController', navController);
 
 	navController.$inject = [ '$scope', 'configPersistance'];
 	function navController($scope, configPersistance) {
