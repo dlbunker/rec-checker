@@ -2,8 +2,8 @@ package com.checker.miner;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -22,7 +22,8 @@ public class MineResultRepositorySearchV2Implementation implements MineResultRep
 	Logger logger = Logger.getLogger(MineResultRepositorySearchV2Implementation.class);
 
 	@Override
-	public List<MineResult> customSearch(Date date, String park, Integer parkID, String entrance, Integer entranceID) {
+	public List<MineResult> customSearch(LocalDate date, String park, Integer parkID, String entrance,
+			Integer entranceID) {
 		ArrayList<MineResult> list = new ArrayList<>();
 		// Return blank if there is nothing
 		if (date == null && park == null && parkID == null && entrance == null && entranceID == null) {
@@ -77,7 +78,7 @@ public class MineResultRepositorySearchV2Implementation implements MineResultRep
 					Entrance entrance = new Entrance();
 
 					mineResult.setSysId(rs.getLong("sys_id"));
-					mineResult.setDate(rs.getDate("date"));
+					mineResult.setDate(rs.getDate("date").toLocalDate());
 					park.setSysId(rs.getLong("park_sys_id"));
 					park.setName(rs.getString("park_name"));
 					mineResult.setPark(park);

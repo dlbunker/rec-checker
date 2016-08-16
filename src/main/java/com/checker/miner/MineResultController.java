@@ -1,6 +1,6 @@
 package com.checker.miner;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class MineResultController {
 			@RequestParam(value = "entrance", required = false) String entrance,
 			@RequestParam(value = "entranceID", required = false) Integer entranceID) {
 
-		Date date2 = DateRange.stringToDate(date);
+		LocalDate date2 = DateRange.stringToDate(date);
 
 		List<MineResult> list = this.mineResultRepositorySearchV2Implementation.customSearch(date2, park, parkID,
 				entrance, entranceID);

@@ -1,6 +1,6 @@
 package com.checker.miner;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -62,9 +62,9 @@ public class SeleniumReservationService {
 			DateRange dateRange = this.settingIntepreterService.getSettingAsDateRange("dates",
 					new DateRange(this.applicationProperties.getDefaultDates()));
 			logger.log(Level.DEBUG, "Searching date range: " + dateRange);
-			Iterable<Date> iterable = dateRange.getIterable();
+			Iterable<LocalDate> iterable = dateRange.getIterable();
 			int skipCount = 0;
-			for (Date day : iterable) {
+			for (LocalDate day : iterable) {
 				if (skipCount > 0) {
 					skipCount--;
 					continue;

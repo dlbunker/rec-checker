@@ -1,43 +1,40 @@
 package com.checker.settings;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DateRange {
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
-	private static final long NUMBER_OF_MILLIS_PER_DAY = 86400000L;
+	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
-	public static String dateToString(Date date) {
+	public static String dateToString(LocalDate date) {
 		if (date == null) {
 			return null;
 		}
-		return DATE_FORMAT.format(date);
+		return date.format(DATE_FORMAT);
 	}
 
-	public static Date stringToDate(String date) {
+	public static LocalDate stringToDate(String date) {
 		if (date == null) {
 			return null;
 		}
 		try {
-			return DATE_FORMAT.parse(date);
-		} catch (ParseException e) {
+			return LocalDate.parse(date, DATE_FORMAT);
+		} catch (IllegalArgumentException e) {
 			return null;
 		}
 	}
 
-	private Date endDate;
+	private LocalDate endDate;
 
-	private Date startDate;
+	private LocalDate startDate;
 
 	public DateRange() {
-		this.endDate = new Date();
-		this.startDate = new Date();
+		this.endDate = LocalDate.now();
+		this.startDate = LocalDate.now();
 	}
 
-	public DateRange(Date start, Date end) {
+	public DateRange(LocalDate start, LocalDate end) {
 		this.setStartDate(start);
 		this.setEndDate(end);
 	}
@@ -62,12 +59,12 @@ public class DateRange {
 		if (this.startDate.compareTo(this.endDate) <= 0) {
 			return;
 		}
-		Date temp = this.startDate;
+		LocalDate temp = this.startDate;
 		this.startDate = this.endDate;
 		this.endDate = temp;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return this.endDate;
 	}
 
@@ -77,42 +74,31 @@ public class DateRange {
 	 *
 	 * @return an iterable of Date objects.
 	 */
-	public Iterable<Date> getIterable() {
+	public Iterable<LocalDate> getIterable() {
+		ArrayList<LocalDate> list = new ArrayList<>();
 		if (this.startDate == null || this.endDate == null) {
-			return new ArrayList<>();
+			return list;
 		}
-		if (dateToString(this.startDate).equals(dateToString(this.endDate))) {
-			ArrayList<Date> arrayList = new ArrayList<>();
-			arrayList.add(this.startDate);
-			return arrayList;
+
+		LocalDate currentDate = this.startDate;
+		while (currentDate.isBefore(this.endDate)) {
+			currentDate = currentDate.plusDays(1);
+			list.add(currentDate);
 		}
-		long start = this.startDate.getTime();
-		String end = dateToString(this.endDate);
-		ArrayList<Date> list = new ArrayList<>();
-		boolean readyToBreak = false;
-		while (true) {
-			list.add(new Date(start));
-			start = start + NUMBER_OF_MILLIS_PER_DAY;
-			if (readyToBreak) {
-				break;
-			}
-			if (dateToString(new Date(start)).equals(end)) {
-				readyToBreak = true;
-			}
-		}
+
 		return list;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return this.startDate;
 	}
 
-	public void setEndDate(Date end) {
+	public void setEndDate(LocalDate end) {
 		this.endDate = end;
 		this.checkDateOrdering();
 	}
 
-	public void setStartDate(Date start) {
+	public void setStartDate(LocalDate start) {
 		this.startDate = start;
 		this.checkDateOrdering();
 	}

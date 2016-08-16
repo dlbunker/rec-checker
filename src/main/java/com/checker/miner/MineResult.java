@@ -1,6 +1,6 @@
 package com.checker.miner;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import org.springframework.hateoas.ResourceSupport;
 @Entity
 public class MineResult extends ResourceSupport {
 	@Column
-	private Date date;
+	private LocalDate date;
 
 	@ManyToOne
 	private Entrance entrance;
@@ -25,7 +25,7 @@ public class MineResult extends ResourceSupport {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long sysId;
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return this.date;
 	}
 
@@ -41,7 +41,7 @@ public class MineResult extends ResourceSupport {
 		return this.sysId;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
