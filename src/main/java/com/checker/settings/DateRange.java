@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DateRange {
-	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("M/d/yyyy");
 
 	public static String dateToString(LocalDate date) {
 		if (date == null) {
@@ -81,9 +81,9 @@ public class DateRange {
 		}
 
 		LocalDate currentDate = this.startDate;
-		while (currentDate.isBefore(this.endDate)) {
-			currentDate = currentDate.plusDays(1);
+		while (currentDate.isBefore(this.endDate) || currentDate.equals(this.endDate)) {
 			list.add(currentDate);
+			currentDate = currentDate.plusDays(1);
 		}
 
 		return list;

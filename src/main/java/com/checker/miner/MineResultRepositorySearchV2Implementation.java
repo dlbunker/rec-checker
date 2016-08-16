@@ -71,24 +71,24 @@ public class MineResultRepositorySearchV2Implementation implements MineResultRep
 
 			@Override
 			public List<MineResult> extractData(ResultSet rs) throws SQLException, DataAccessException {
-				ArrayList<MineResult> list = new ArrayList<>();
+				ArrayList<MineResult> listToReturn = new ArrayList<>();
 				while (rs.next()) {
 					MineResult mineResult = new MineResult();
-					Park park = new Park();
-					Entrance entrance = new Entrance();
+					Park parkTemp = new Park();
+					Entrance entranceTemp = new Entrance();
 
 					mineResult.setSysId(rs.getLong("sys_id"));
 					mineResult.setDate(rs.getDate("date").toLocalDate());
-					park.setSysId(rs.getLong("park_sys_id"));
-					park.setName(rs.getString("park_name"));
-					mineResult.setPark(park);
-					entrance.setSysId(rs.getLong("entrance_sys_id"));
-					entrance.setName(rs.getString("entrance_name"));
-					mineResult.setEntrance(entrance);
+					parkTemp.setSysId(rs.getLong("park_sys_id"));
+					parkTemp.setName(rs.getString("park_name"));
+					mineResult.setPark(parkTemp);
+					entranceTemp.setSysId(rs.getLong("entrance_sys_id"));
+					entranceTemp.setName(rs.getString("entrance_name"));
+					mineResult.setEntrance(entranceTemp);
 
-					list.add(mineResult);
+					listToReturn.add(mineResult);
 				}
-				return list;
+				return listToReturn;
 			}
 
 		});

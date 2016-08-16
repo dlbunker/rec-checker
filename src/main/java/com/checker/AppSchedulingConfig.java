@@ -42,7 +42,7 @@ public class AppSchedulingConfig implements SchedulingConfigurer {
 		taskRegistrar.addTriggerTask(new Runnable() {
 			@Override
 			public void run() {
-				AppSchedulingConfig.this.seleniumReservationService.get();
+				AppSchedulingConfig.this.seleniumReservationService.getMineResults();
 			}
 		}, new Trigger() {
 			@Override
