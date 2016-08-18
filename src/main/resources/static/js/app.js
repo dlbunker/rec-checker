@@ -1,6 +1,6 @@
 (function() {
 	console.log("Loading app...");
-	angular.module('app', [ 'ui.router', 'navController',
+	angular.module('app', [ 'ui.router',
 			'ngAnimate', 'ui.bootstrap' ])
 
 	// define for requirejs loaded modules

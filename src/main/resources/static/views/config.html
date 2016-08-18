@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container config">
 
 	<div class="page-header">
 		<h1>Resource Checker Config</h1>
@@ -31,15 +31,37 @@
 				ng-model-options="{debounce: 1500}" ng-change="dates.save();"
 				ng-required="true" required placeholder="06/01/2016-07/15/2016" />
 		</div>
-		<div class="form-group">
-			<label for="ids"> What reservation resources to check?
-				(id1,id2,id3,id4 ...)</label><i class="glyphicon glyphicon-hourglass"
-				ng-show="ids._loading"></i> <input id="ids" name="ids"
-				ng-model="ids.value" class="form-control"
-				ng-model-options="{debounce: 1500}" ng-change="ids.save();"
-				ng-required="true" required placeholder="123,456,789" />
+		<div class="form-group form-search">
+			<label for="currentSearchItem"> What reservation resources to
+				check? (Place1, Place2...)</label><i class="glyphicon glyphicon-hourglass"
+				ng-show="searchs._loading"></i>
+
+			<!-- New item input -->
+			<div class="input-group">
+				<input id="currentSearchItem" name="currentSearchItem"
+					ng-model="currentSearchItem" class="form-control"
+					ng-keypress="$event.which == 13 && addSearch()"
+					ng-required="true" required
+					placeholder="Dinosaur Green and Yampa River Permits" /> <span
+					class="input-group-btn">
+					<button class="btn btn-success" type="button"
+						ng-click="addSearch()">
+						<i class="glyphicon glyphicon-plus"></i>
+					</button>
+				</span>
+			</div>
+
+			<!-- Items in search -->
+			<div class="search-item-list">
+				<button class="search-item btn btn-success"
+					ng-repeat="item in searchs.items track by $index"
+					ng-click="removeSearch($index)" type="button">
+					{{item}} &nbsp;<span class="badge"><i
+						class="glyphicon glyphicon-remove"></i></span>
+				</button>
+			</div>
 		</div>
 
 	</form>
 </div>
-<!-- /container -->
+<!-- /.container.config -->

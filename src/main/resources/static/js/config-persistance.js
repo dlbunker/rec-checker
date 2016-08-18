@@ -3,8 +3,8 @@
 	angular.module('app').factory('configPersistance',
 			configPersistance);
 
-	configPersistance.$inject = [ '$http' ];
-	function configPersistance($http) {
+	configPersistance.$inject = [ '$http' , '$q'];
+	function configPersistance($http, $q) {
 		factory.prototype.getSetting = getSetting;
 		configItem.prototype.save = save;
 		configItem.prototype.getName
@@ -21,6 +21,7 @@
 			var that = this;
 			this.name = name;
 			this._loading = true;
+			this._defer = $q.defer();
 			$http.get('/api/settings/search/findByName?name=' + name).then(
 					function successCallback(response) {
 						angular.forEach(response.data, function(value, key) {
@@ -38,17 +39,20 @@
 						that._new = true;
 					}).finally(function(){
 						that._loading = false;
+						that._defer.resolve();
 					});
 		}
 		function save() {
 			var that = this;
 			this._loading = true;
+			this._defer = $q.defer();
 			if (this._links && this._links.self && typeof this.value != "undefined") {
 				var data = {
 					"value" : this.value
 				};
 				$http.patch(this._links.self.href, data).finally(function(){
 					that._loading = false;
+					that._defer.resolve();
 				});
 			} else if (this._new) {
 				delete this._new;
@@ -62,11 +66,13 @@
 					});
 				}).finally(function(){
 					that._loading = false;
+					that._defer.resolve();
 				});
 
 			} else {
 				console.error("WARN: Unable to save setting.");
 				that._loading = false;
+				that._defer.resolve();
 			}
 		}
 	}

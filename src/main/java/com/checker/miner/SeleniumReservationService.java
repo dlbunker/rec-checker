@@ -54,7 +54,7 @@ public class SeleniumReservationService {
 
 	private boolean useHTMLUnit;
 
-	private Entrance findIfExistsOrCreateNewEntrance(long entranceID) {
+	private Entrance findEntranceIfExistsOrCreateNew(long entranceID) {
 		Entrance entrance = this.entranceRepository.findOne(entranceID);
 		if (entrance == null) {
 			entrance = new Entrance();
@@ -64,7 +64,7 @@ public class SeleniumReservationService {
 		return entrance;
 	}
 
-	private Park findIfExistsOrCreateNewPark(long parkID) {
+	private Park findParkIfExistsOrCreateNew(long parkID) {
 		Park park = this.parkRepository.findOne(parkID);
 		if (park == null) {
 			park = new Park();
@@ -82,7 +82,7 @@ public class SeleniumReservationService {
 		return iterable;
 	}
 
-	public void getMineResults() {
+	public void run() {
 		boolean on = this.settingIntepreterService.getSettingAsBoolean("on", false);
 		if (!on) {
 			return;
@@ -117,7 +117,7 @@ public class SeleniumReservationService {
 						}
 						if (reservedStatuses.size() == 0) {
 							logger.log(Level.DEBUG, "permit found at: " + currentDay);
-							this.logNewMineResult(day, parkID, entranceID);
+							this.persistNewMineResult(day, parkID, entranceID);
 						}
 					}
 				}
@@ -153,17 +153,17 @@ public class SeleniumReservationService {
 		}
 	}
 
-	private void logNewMineResult(LocalDate day, long parkID, long entranceID) {
+	private void persistNewMineResult(LocalDate day, long parkID, long entranceID) {
 		MineResult mineResult = this.mineResultRepository.findByDateAndEntranceSysIdAndParkSysId(day, entranceID,
 				parkID);
 		if (mineResult == null) {
 			mineResult = new MineResult();
 			mineResult.setDate(day);
 
-			Park park = this.findIfExistsOrCreateNewPark(parkID);
+			Park park = this.findParkIfExistsOrCreateNew(parkID);
 			mineResult.setPark(park);
 
-			Entrance entrance = this.findIfExistsOrCreateNewEntrance(entranceID);
+			Entrance entrance = this.findEntranceIfExistsOrCreateNew(entranceID);
 			mineResult.setEntrance(entrance);
 
 			this.mineResultRepository.save(mineResult);

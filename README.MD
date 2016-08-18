@@ -12,3 +12,11 @@ Open your favorite IDE and continue development
 OR
 Run the newly built JAR in the target directory
 Then browse to http://localhost:8080
+
+REST Credentials
+
+Username: STG-Bryce-Fisher
+EmailAdd: bryce.fisher@stgconsulting.com
+Password: STGDevCenter
+ApiToken: EBD8F5B48130455CB4106F59919CF3FB
+ApiDocum: http://usda.github.io/RIDB/

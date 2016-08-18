@@ -54,53 +54,66 @@ body {
 	transform: translate3d(100px, 0, 0);
 }
 
-.home input:invalid , .home input[disabled] {
-	font-family: 'Glyphicons Halflings';
-}
+.home {
+	input:invalid , input[disabled] {
+		font-family: 'Glyphicons Halflings';
+	}
 
-.height-bumper {
-	margin-bottom: 30px;
-}
+	.height-bumper {
+		margin-bottom: 30px;
+	}
 
-.jumbotron {
-	margin-bottom: 0;
-}
+	.jumbotron {
+		margin-bottom: 0;
+	}
 
-.jumbotron , .jumbotron .container , .jumbotron .container h1 {
-	opacity: 1;
-	max-height: 200px;
-	-webkit-transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-o-transition: all 0.5s ease-in-out;
-	transition: all 0.5s ease-in-out;
-}
+	.jumbotron , .jumbotron .container , .jumbotron .container h1 {
+		opacity: 1;
+		max-height: 200px;
+		-webkit-transition: all 0.5s ease-in-out;
+		-moz-transition: all 0.5s ease-in-out;
+		-o-transition: all 0.5s ease-in-out;
+		transition: all 0.5s ease-in-out;
+	}
 
-.jumbotron.ng-hide , .jumbotron.ng-hide .container , .jumbotron.ng-hide .container h1 {
-	opacity: 0;
-	max-height: 0;
-	padding-top: 0;
-	padding-bottom: 0;
-	margin-top: 0;
-	margin-bottom: 0;
-}
+	.jumbotron.ng-hide , .jumbotron.ng-hide .container , .jumbotron.ng-hide .container h1 {
+		opacity: 0;
+		max-height: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
 
-.search-results {
-	.result-item {
-		&:nth-child(odd) {
-			background-color: #ddd;
-			div {
+	.search-results {
+		.result-item {
+			&:nth-child(odd) {
 				background-color: #ddd;
+				div {
+					background-color: #ddd;
+				}
 			}
+
+			div {
+				padding-top: 3px;
+				padding-bottom: 3px;
+				padding-left: 30px;
+			}
+
+			border-radius: 5px;
+			padding: 12px;
 		}
-		div{
-			padding-top: 3px;
-			padding-bottom: 3px;
-			padding-left: 30px;
-		}
-		
-		border-radius: 5px;
-		padding: 12px;
-		
 	}
 }
 
+.config{
+	.form-search{
+		.search-item-list{
+			padding-top: 5px;
+			margin-left: -5px;
+			.search-item{
+				margin: 5px;
+			}
+		}	
+	}	
+}
