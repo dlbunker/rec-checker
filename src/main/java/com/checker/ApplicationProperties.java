@@ -5,71 +5,82 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApplicationProperties {
-	
-	@Value("${com.checker.default.delay:180}")
-	private int defaultDelay;
 
 	@Value("${com.checker.default.dates:null}")
 	private String defaultDates;
 
-	@Value("${com.checker.default.ids:null}")
-	private String defaultIds;
-	
-	@Value("${com.checker.selenium.usexvfb:false}")
-	private boolean useXvfb;
-	
-	@Value("${com.checker.selenium.xvfb.display.port:null}")
-	private String xvfbDisplayPort;
-	
+	@Value("${com.checker.default.delay:180}")
+	private int defaultDelay;
+
+	@Value("${com.checker.default.searches:[]}")
+	private String defaultSearches;
+
+	@Value("${com.checker.rest.ridb.apikey:null}")
+	private String ridbApiKey;
+
 	@Value("${com.checker.selenium.usehtmlunit:true}")
 	private boolean useHTMLUnit;
 
-	public int getDefaultDelay() {
-		return this.defaultDelay;
-	}
+	@Value("${com.checker.selenium.usexvfb:false}")
+	private boolean useXvfb;
 
-	public void setDefaultDelay(int defaultDelay) {
-		this.defaultDelay = defaultDelay;
-	}
+	@Value("${com.checker.selenium.xvfb.display.port:null}")
+	private String xvfbDisplayPort;
 
 	public String getDefaultDates() {
 		return this.defaultDates;
 	}
 
-	public void setDefaultDates(String defaultDates) {
-		this.defaultDates = defaultDates;
+	public int getDefaultDelay() {
+		return this.defaultDelay;
 	}
 
-	public String getDefaultIds() {
-		return this.defaultIds;
+	public String getDefaultSearches() {
+		return this.defaultSearches;
 	}
 
-	public void setDefaultIds(String defaultIds) {
-		this.defaultIds = defaultIds;
-	}
-
-	public boolean isUseXvfb() {
-		return this.useXvfb;
-	}
-
-	public void setUseXvfb(boolean useXvfb) {
-		this.useXvfb = useXvfb;
+	public String getRidbApiKey() {
+		return this.ridbApiKey;
 	}
 
 	public String getXvfbDisplayPort() {
 		return this.xvfbDisplayPort;
 	}
 
-	public void setXvfbDisplayPort(String xvfbDisplayPort) {
-		this.xvfbDisplayPort = xvfbDisplayPort;
-	}
-
 	public boolean isUseHTMLUnit() {
 		return this.useHTMLUnit;
 	}
 
+	public boolean isUseXvfb() {
+		return this.useXvfb;
+	}
+
+	public void setDefaultDates(String defaultDates) {
+		this.defaultDates = defaultDates;
+	}
+
+	public void setDefaultDelay(int defaultDelay) {
+		this.defaultDelay = defaultDelay;
+	}
+
+	public void setDefaultSearches(String defaultSearches) {
+		this.defaultSearches = defaultSearches;
+	}
+
+	public void setRidbApiKey(String ridbApiKey) {
+		this.ridbApiKey = ridbApiKey;
+	}
+
 	public void setUseHTMLUnit(boolean useHTMLUnit) {
 		this.useHTMLUnit = useHTMLUnit;
+	}
+
+	public void setUseXvfb(boolean useXvfb) {
+		this.useXvfb = useXvfb;
+	}
+
+	public void setXvfbDisplayPort(String xvfbDisplayPort) {
+		this.xvfbDisplayPort = xvfbDisplayPort;
 	}
 
 }

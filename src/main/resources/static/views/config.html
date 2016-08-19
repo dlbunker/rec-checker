@@ -8,7 +8,7 @@
 		ng-controller="configController" action="">
 		<div class="form-group">
 			<label for="on">Data Mining Enabled? </label>
-			<button id="on" name="on" type="button" class="btn"
+			<button id="on" name="on" type="button" class="btn" type="button"
 				ng-class="on.value ? 'btn-success' : 'btn-danger'"
 				ng-model="on.value" ng-click="on.value = !on.value; on.save();">
 				{{on.value ? 'On' : 'Off'}}</button>
@@ -34,15 +34,14 @@
 		<div class="form-group form-search">
 			<label for="currentSearchItem"> What reservation resources to
 				check? (Place1, Place2...)</label><i class="glyphicon glyphicon-hourglass"
-				ng-show="searchs._loading"></i>
+				ng-show="searches._loading"></i>
 
 			<!-- New item input -->
 			<div class="input-group">
 				<input id="currentSearchItem" name="currentSearchItem"
-					ng-model="currentSearchItem" class="form-control"
-					ng-keypress="$event.which == 13 && addSearch()"
-					ng-required="true" required
-					placeholder="Dinosaur Green and Yampa River Permits" /> <span
+					ng-model="currentSearchItem" class="form-control" ng-focus="selectElement($event);"
+					ng-keypress="$event.which == 13 && addSearch()" ng-required="true"
+					required placeholder="Dinosaur Green and Yampa River Permits" /> <span
 					class="input-group-btn">
 					<button class="btn btn-success" type="button"
 						ng-click="addSearch()">
@@ -54,7 +53,7 @@
 			<!-- Items in search -->
 			<div class="search-item-list">
 				<button class="search-item btn btn-success"
-					ng-repeat="item in searchs.items track by $index"
+					ng-repeat="item in searches.items track by $index"
 					ng-click="removeSearch($index)" type="button">
 					{{item}} &nbsp;<span class="badge"><i
 						class="glyphicon glyphicon-remove"></i></span>

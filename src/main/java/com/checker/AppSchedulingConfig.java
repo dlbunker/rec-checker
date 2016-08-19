@@ -23,22 +23,17 @@ import com.checker.settings.SettingIntepreterService;
 public class AppSchedulingConfig implements SchedulingConfigurer {
 
 	@Autowired
+	ApplicationProperties applicationProperties;
+
+	@Autowired
 	SeleniumReservationService seleniumReservationService;
 
 	@Autowired
 	SettingIntepreterService settingIntepreterService;
 
-	@Autowired
-	ApplicationProperties applicationProperties;
-
-	@Bean(destroyMethod = "shutdown")
-	public Executor taskExecutor() {
-		return Executors.newScheduledThreadPool(100);
-	}
-
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-		taskRegistrar.setScheduler(taskExecutor());
+		taskRegistrar.setScheduler(this.taskExecutor());
 		taskRegistrar.addTriggerTask(new Runnable() {
 			@Override
 			public void run() {
@@ -50,11 +45,15 @@ public class AppSchedulingConfig implements SchedulingConfigurer {
 				Calendar nextExecutionTime = new GregorianCalendar();
 				Date lastActualExecutionTime = triggerContext.lastActualExecutionTime();
 				nextExecutionTime.setTime(lastActualExecutionTime != null ? lastActualExecutionTime : new Date());
-				int delayInt = AppSchedulingConfig.this.settingIntepreterService.getSettingAsInt("delay",
-						AppSchedulingConfig.this.applicationProperties.getDefaultDelay());
+				int delayInt = AppSchedulingConfig.this.settingIntepreterService.getSettingAsInt("delay", 10);
 				nextExecutionTime.add(Calendar.SECOND, delayInt);
 				return nextExecutionTime.getTime();
 			}
 		});
+	}
+
+	@Bean(destroyMethod = "shutdown")
+	public Executor taskExecutor() {
+		return Executors.newScheduledThreadPool(100);
 	}
 }
