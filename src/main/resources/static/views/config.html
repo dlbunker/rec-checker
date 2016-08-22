@@ -1,0 +1,66 @@
+<div class="container config">
+
+	<div class="page-header">
+		<h1>Resource Checker Config</h1>
+	</div>
+
+	<form novalidate name="mining_form" class="col-xs-12 col-sm-9 col-md-6"
+		ng-controller="configController" action="">
+		<div class="form-group">
+			<label for="on">Data Mining Enabled? </label>
+			<button id="on" name="on" type="button" class="btn" type="button"
+				ng-class="on.value ? 'btn-success' : 'btn-danger'"
+				ng-model="on.value" ng-click="on.value = !on.value; on.save();">
+				{{on.value ? 'On' : 'Off'}}</button>
+			<i class="glyphicon glyphicon-hourglass" ng-show="on._loading"></i>
+		</div>
+		<div class="form-group">
+			<label for="delay">How long between data mine jobs? (in
+				seconds) <i class="glyphicon glyphicon-hourglass"
+				ng-show="delay._loading"></i>
+			</label> <input id="delay" name="delay" ng-model="delay.value"
+				class="form-control" ng-model-options="{debounce: 1500}"
+				ng-change="delay.save();" ng-required="true" required
+				placeholder="30" />
+		</div>
+		<div class="form-group">
+			<label for="dates">Which dates to check?
+				(mm/dd/yyyy-mm/dd/yyyy)</label><i class="glyphicon glyphicon-hourglass"
+				ng-show="dates._loading"></i> <input id="dates" name="dates"
+				ng-model="dates.value" class="form-control"
+				ng-model-options="{debounce: 1500}" ng-change="dates.save();"
+				ng-required="true" required placeholder="06/01/2016-07/15/2016" />
+		</div>
+		<div class="form-group form-search">
+			<label for="currentSearchItem"> What reservation resources to
+				check? (Place1, Place2...)</label><i class="glyphicon glyphicon-hourglass"
+				ng-show="searches._loading"></i>
+
+			<!-- New item input -->
+			<div class="input-group">
+				<input id="currentSearchItem" name="currentSearchItem"
+					ng-model="currentSearchItem" class="form-control" ng-focus="selectElement($event);"
+					ng-keypress="$event.which == 13 && addSearch()" ng-required="true"
+					required placeholder="Dinosaur Green and Yampa River Permits" /> <span
+					class="input-group-btn">
+					<button class="btn btn-success" type="button"
+						ng-click="addSearch()">
+						<i class="glyphicon glyphicon-plus"></i>
+					</button>
+				</span>
+			</div>
+
+			<!-- Items in search -->
+			<div class="search-item-list">
+				<button class="search-item btn btn-success"
+					ng-repeat="item in searches.items track by $index"
+					ng-click="removeSearch($index)" type="button">
+					{{item}} &nbsp;<span class="badge"><i
+						class="glyphicon glyphicon-remove"></i></span>
+				</button>
+			</div>
+		</div>
+
+	</form>
+</div>
+<!-- /.container.config -->
